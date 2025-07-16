@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Color Palette from Image</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" referrerpolicy="no-referrer" />
+    <style type="text/tailwindcss">
+        @font-face {
+            font-family: 'General Sans';
+            src: url('GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Stardom';
+            src: url('Stardom_Complete/Stardom_Complete/Fonts/OTF/Stardom-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        :root {
+        --background-color: #1A3A32;
+        --text-color: #DCD0A8;
+        --border-color: #DCD0A8;
+        --btn-border-color: rgba(255, 255, 255, 0.5);
+        --btn-hover-bg: rgba(255, 255, 255, 0.1);
+        --footer-bg: #000000;
+        --color-swatch-1: #101004;
+        --color-swatch-2: #274013;
+        --color-swatch-3: #92B95F;
+        --color-swatch-4: #9DE13A;
+        --color-swatch-5: #B2DA81;
+        --color-swatch-6: #6A8553;
+    }
+    body {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 500;
+        background-color: var(--background-color);
+        color: #DCD0A8;
+    }
+    .custom-border {
+        border-color: var(--border-color);
+    }
+    .btn-outline {
+        border: 1px solid var(--btn-border-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .btn-outline:hover {
+        background-color: var(--btn-hover-bg);
+    }
+    .color-swatch {
+        width: 100px;
+        height: 48px;
+        border: 1px solid #DCD0A8;
+    }
+    .line {
+        position: absolute;
+        height: 1px;
+        background-color: #DCD0A8;
+        transform-origin: left center;
+    }
+    a {
+        color: #DCD0A8;
+    }
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fadeInUp {
+        opacity: 0;
+        animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+    .animate-delay-1 {
+        animation-delay: 0.3s;
+    }
+    .animate-delay-2 {
+        animation-delay: 0.6s;
+    }
+    .animate-delay-3 { animation-delay: 0.9s; }
+    .animate-delay-4 { animation-delay: 1.2s; }
+    .animate-delay-5 { animation-delay: 1.5s; }
+    .animate-delay-6 { animation-delay: 1.8s; }
+    .animate-delay-7 { animation-delay: 2.1s; }
+    .animate-delay-8 { animation-delay: 2.4s; }
+    .animate-delay-9 { animation-delay: 2.7s; }
+    .animate-delay-10 { animation-delay: 3.0s; }
+#profile-dropdown {
+  min-width: 8rem;
+}
+</style>
+</head>
+
+<body class="bg-[var(--background-color)]">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+        <header class="flex items-center justify-between py-6 border-b custom-border animate-fadeInUp animate-delay-1 relative z-50">
+  <!-- Left: Hamburger (mobile) + Logo -->
+  <div class="flex items-center flex-shrink-0 min-w-0">
+    <button id="mobile-menu-btn" class="md:hidden mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+      <svg class="w-7 h-7 text-[#DCD0A8]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <div class="text-xl font-bold text-white whitespace-nowrap">Blink | color</div>
+  </div>
+  <!-- Center: Nav (desktop only) -->
+  <nav class="hidden md:flex flex-1 justify-center items-center space-x-8">
+    <a class="hover:underline" href="#">Home</a>
+    <a class="hover:underline" href="product.html">Product</a>
+    <a class="hover:underline" href="tool.html">Tool</a>
+  </nav>
+  <!-- Right: Login button and Profile Avatar -->
+  <div class="flex-shrink-0 flex items-center gap-2">
+    <a class="btn-outline px-6 py-2 rounded-lg text-sm font-medium ml-2" id="auth-btn" href="#" style="color: #DCD0A8;">Login or Signup</a>
+    <div id="profile-menu-container" class="relative hidden">
+      <div class="flex items-center gap-2 cursor-pointer" id="profile-avatar-wrapper">
+        <div id="profile-avatar" class="w-8 h-8 rounded-full border border-[#DCD0A8] bg-[#274013] flex items-center justify-center text-[#DCD0A8] font-bold text-lg"></div>
+        <span id="profile-email" class="text-[#DCD0A8] text-sm font-medium"></span>
+      </div>
+      <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-32 bg-[#1A3A32] border border-[#DCD0A8] rounded-lg shadow-lg z-50">
+        <button id="logout-btn" class="block w-full text-left px-4 py-2 text-[#DCD0A8] hover:bg-[#274013] rounded-b-lg">Logout</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Mobile nav overlay and dropdown -->
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden"></div>
+<nav id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full bg-[#1A3A32] z-50 shadow-lg border-b border-[#DCD0A8] pt-20 pb-6 px-6 hidden transition-all duration-300 opacity-0 translate-y-2" aria-label="Mobile navigation">
+  <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="#">Home</a>
+  <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="product.html">Product</a>
+  <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="tool.html">Tool</a>
+</nav>
+        <main class="mt-16 mb-24 animate-fadeInUp">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <img alt="A mosaic of green stained glass" class="rounded-3xl shadow-2xl" src="exam.jpg">
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-1">
+                        <div class="color-swatch bg-[var(--color-swatch-1)]"></div>
+                        <p class="text-lg" style="color: #DCD0A8;">Extract color palettes from any image</p>
+                    </div>
+                    <hr class="border-t custom-border ml-20" />
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-2">
+                        <div class="color-swatch bg-[var(--color-swatch-2)]"></div>
+                        <p class="text-lg" style="color: #DCD0A8;">Live gradient and color previews</p>
+                    </div>
+                    <hr class="border-t custom-border ml-20" />
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-3">
+                        <div class="color-swatch bg-[var(--color-swatch-3)]"></div>
+                        <p class="text-lg" style="color: #DCD0A8;">Copy CSS &amp; Tailwind code instantly</p>
+                    </div>
+                    <hr class="border-t custom-border ml-20" />
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-4">
+                        <div class="color-swatch bg-[var(--color-swatch-4)]"></div>
+                        <p class="text-lg" style="color: #DCD0A8;">Export palettes in many formats (JSON, CSS...) etc.</p>
+                    </div>
+                    <hr class="border-t custom-border ml-20" />
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-5">
+                        <div class="color-swatch bg-[var(--color-swatch-5)]"></div>
+                        <p class="text-lg" style="color: #DCD0A8;">Modern, mobile-friendly UI</p>
+                    </div>
+                    <hr class="border-t custom-border ml-20" />
+                    <div class="flex items-center space-x-6 animate-fadeInUp animate-delay-6">
+                        <div class="color-swatch bg-[var(--color-swatch-6)]"></div>
+                        <a class="btn-outline px-6 py-3 rounded-lg text-sm font-medium flex items-center space-x-2 w-full justify-center"
+                            href="main.html" style="color: #ebc751;">
+                            <span style="color: #DCD0A8;">Get started</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path clip-rule="evenodd"
+                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                    fill-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-t custom-border mt-16" />
+        </main>
+    </div>
+    <!-- Contact & Feedback Section -->
+    <section id="contact-feedback" class="flex flex-col md:flex-row max-w-5xl mx-auto my-8 md:my-16 p-4 sm:p-6 md:p-8 pb-24 md:pb-8 rounded-2xl bg-[#1A3A32] gap-6 md:gap-8 items-center">
+  <div class="w-full md:w-80 flex-shrink-0 animate-fadeInUp animate-delay-1 mb-6 md:mb-0">
+    <img src="side.jpg" alt="Contact" class="w-full h-auto object-cover rounded-2xl shadow-lg border-2 border-[#DCD0A8]" />
+  </div>
+  <div class="flex-1 w-full">
+    <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center animate-fadeInUp animate-delay-2" style="color: #DCD0A8;">Contact Us</h2>
+    <form id="contact-form" class="space-y-3 md:space-y-4 mb-6 md:mb-8 w-full">
+      <div class="flex flex-col md:flex-row gap-3 md:gap-4 animate-fadeInUp animate-delay-3">
+        <input type="text" name="name" placeholder="Your Name" class="w-full md:flex-1 px-4 py-2 rounded border border-[#DCD0A8] bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" />
+        <input type="email" name="email" placeholder="Your Email" class="w-full md:flex-1 px-4 py-2 rounded border border-[#DCD0A8] bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" />
+      </div>
+      <textarea name="message" rows="3" placeholder="Your Message" class="w-full px-4 py-2 rounded border border-[#DCD0A8] bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8] animate-fadeInUp animate-delay-4"></textarea>
+      <button type="submit" class="w-full bg-transparent border-2 border-[#DCD0A8] text-[#DCD0A8] font-semibold py-2 rounded-full transition hover:bg-[#274013] hover:text-white hover:border-white animate-fadeInUp animate-delay-5">Send Message</button>
+    </form>
+    <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center mt-8 md:mt-10 animate-fadeInUp animate-delay-6" style="color: #DCD0A8;">Feedback</h2>
+    <form id="feedback-form" class="space-y-3 md:space-y-4 w-full">
+      <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 justify-center animate-fadeInUp animate-delay-7">
+        <span class="text-[#DCD0A8] font-semibold">Rate us:</span>
+        <div id="feedback-stars" class="flex gap-1">
+          <i class="fa-regular fa-star text-2xl cursor-pointer text-[#DCD0A8]" data-value="1"></i>
+          <i class="fa-regular fa-star text-2xl cursor-pointer text-[#DCD0A8]" data-value="2"></i>
+          <i class="fa-regular fa-star text-2xl cursor-pointer text-[#DCD0A8]" data-value="3"></i>
+          <i class="fa-regular fa-star text-2xl cursor-pointer text-[#DCD0A8]" data-value="4"></i>
+          <i class="fa-regular fa-star text-2xl cursor-pointer text-[#DCD0A8]" data-value="5"></i>
+        </div>
+      </div>
+      <textarea name="feedback" rows="3" placeholder="Your Feedback" class="w-full px-4 py-2 rounded border border-[#DCD0A8] bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8] animate-fadeInUp animate-delay-8" required></textarea>
+      <button type="submit" class="w-full bg-transparent border-2 border-[#DCD0A8] text-[#DCD0A8] font-semibold py-2 rounded-full transition hover:bg-[#274013] hover:text-white hover:border-white animate-fadeInUp animate-delay-9">Submit Feedback</button>
+      <div id="feedback-thankyou" class="hidden text-center text-[#9DE13A] font-semibold mt-2 animate-fadeInUp animate-delay-10">Thank you for your feedback!</div>
+    </form>
+  </div>
+</section>
+    <footer class="bg-[var(--footer-bg)] py-4 fixed bottom-0 w-full animate-fadeInUp animate-delay-2">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-sm text-gray-400">
+            <p style="color: #DCD0A8;">Copyright © 2025 : Blink | color All rights reserved</p>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="color: #DCD0A8;">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.867 8.184 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.58.688.482C19.135 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+<!-- Login/Signup Modal -->
+<div id="auth-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden"></div>
+<div id="auth-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="bg-[#1A3A32] border-2 border-[#DCD0A8] rounded-2xl shadow-2xl p-8 max-w-sm w-full relative animate-fadeInScale">
+        <button id="close-auth-modal" class="absolute top-4 right-4 text-[#DCD0A8] hover:text-white transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        <h3 id="auth-modal-title" class="text-2xl font-bold mb-6 text-center" style="color: #DCD0A8;">Login</h3>
+        <form id="auth-form" class="space-y-5">
+            <div>
+                <label for="auth-email" class="block font-semibold mb-1" style="color: #DCD0A8;">Email</label>
+                <input type="email" id="auth-email" class="w-full px-4 py-2 border border-[#DCD0A8] rounded bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" placeholder="Enter your email" required />
+            </div>
+            <div>
+                <label for="auth-password" class="block font-semibold mb-1" style="color: #DCD0A8;">Password</label>
+                <input type="password" id="auth-password" class="w-full px-4 py-2 border border-[#DCD0A8] rounded bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" placeholder="Enter your password" required />
+            </div>
+            <div id="auth-extra-fields" class="hidden">
+                <label for="auth-confirm-password" class="block font-semibold mb-1" style="color: #DCD0A8;">Confirm Password</label>
+                <input type="password" id="auth-confirm-password" class="w-full px-4 py-2 border border-[#DCD0A8] rounded bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" placeholder="Confirm password" />
+            </div>
+            <button type="submit" class="w-full bg-transparent border-2 border-[#DCD0A8] text-[#DCD0A8] font-semibold py-2 rounded-full transition hover:bg-[#274013] hover:text-white hover:border-white mb-4">Continue</button>
+            <div class="flex items-center my-4">
+                <div class="flex-grow h-px bg-[#DCD0A8] opacity-40"></div>
+                <span class="mx-3 text-[#DCD0A8] opacity-80 font-semibold">or</span>
+                <div class="flex-grow h-px bg-[#DCD0A8] opacity-40"></div>
+            </div>
+            <button id="google-auth-btn" type="button" class="w-full flex items-center justify-center gap-3 bg-white text-[#1A3A32] font-semibold py-2 rounded-full border-2 border-[#DCD0A8] shadow-sm hover:bg-[#f5f5f5] transition">
+                <i class="fab fa-google w-5 h-5 align-middle relative top-px"></i>
+                Continue with Google
+            </button>
+        </form>
+        <div class="text-center mt-6">
+            <span id="auth-toggle-text" style="color: #DCD0A8;">Don't have an account?</span>
+            <button id="toggle-auth-mode" class="text-[#9DE13A] hover:underline font-semibold ml-1 transition-colors">Sign up</button>
+        </div>
+    </div>
+</div>
+<!-- Profile Completion Modal -->
+<div id="profile-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden"></div>
+<div id="profile-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+  <div class="bg-[#1A3A32] border-2 border-[#DCD0A8] rounded-2xl shadow-2xl p-8 max-w-sm w-full relative animate-fadeInScale">
+    <h3 class="text-2xl font-bold mb-6 text-center" style="color: #DCD0A8;">Complete Your Profile</h3>
+    <form id="profile-form" class="space-y-5" enctype="multipart/form-data">
+      <div>
+        <label for="profile-name" class="block font-semibold mb-1" style="color: #DCD0A8;">Name</label>
+        <input type="text" id="profile-name" class="w-full px-4 py-2 border border-[#DCD0A8] rounded bg-transparent text-[#DCD0A8] placeholder-[#DCD0A8] focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" placeholder="Enter your name" required />
+      </div>
+      <div>
+        <label for="profile-avatar-file" class="block font-semibold mb-1" style="color: #DCD0A8;">Avatar Image (optional)</label>
+        <input type="file" id="profile-avatar-file" accept="image/*" class="w-full text-[#DCD0A8]" />
+        <div class="mt-2 flex justify-center">
+          <img id="profile-avatar-preview" src="" alt="Avatar Preview" class="w-20 h-20 rounded-full border border-[#DCD0A8] object-cover hidden" />
+        </div>
+      </div>
+      <div id="profile-message" style="color: #9DE13A; text-align: center; min-height: 24px;"></div>
+      <button type="submit" class="w-full bg-transparent border-2 border-[#DCD0A8] text-[#DCD0A8] font-semibold py-2 rounded-full transition hover:bg-[#274013] hover:text-white hover:border-white mb-2">Save Profile</button>
+    </form>
+  </div>
+</div>
+<!-- Profile Summary -->
+<div id="profile-summary" class="fixed top-4 right-4 z-50 hidden bg-[#1A3A32] border-2 border-[#DCD0A8] rounded-xl shadow-lg p-4 flex items-center gap-3 animate-fadeInUp">
+  <img id="profile-summary-avatar" src="" alt="Avatar" class="w-10 h-10 rounded-full border border-[#DCD0A8] object-cover" style="display:none;" />
+  <span id="profile-summary-name" class="font-semibold text-[#DCD0A8]"></span>
+  <button id="logout-btn" class="ml-4 px-3 py-1 rounded bg-transparent border border-[#DCD0A8] text-[#DCD0A8] hover:bg-[#274013] hover:text-white hover:border-white text-sm">Logout</button>
+</div>
+
+<script type="module">
+// Only keep Firebase Auth, login/logout, and profile icon logic
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD5ol20940I8Dv85KNXJ_-6Fxg1w0abZoQ",
+  authDomain: "blink-8b3c9.firebaseapp.com",
+  projectId: "blink-8b3c9",
+  storageBucket: "blink-8b3c9.appspot.com",
+  messagingSenderId: "890151524387",
+  appId: "1:890151524387:web:b994afd57a6b7e482d7996",
+  measurementId: "G-Z95PV03FQX"
+};
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+
+const authBtn = document.getElementById('auth-btn');
+const profileMenuContainer = document.getElementById('profile-menu-container');
+const profileAvatar = document.getElementById('profile-avatar');
+const profileEmail = document.getElementById('profile-email');
+const profileDropdown = document.getElementById('profile-dropdown');
+const logoutBtn = document.getElementById('logout-btn');
+const profileAvatarWrapper = document.getElementById('profile-avatar-wrapper');
+
+// Auth Modal Logic (simple version)
+document.addEventListener('DOMContentLoaded', function() {
+  const authForm = document.getElementById('auth-form');
+  const authModal = document.getElementById('auth-modal');
+  const authModalTitle = document.getElementById('auth-modal-title');
+  const closeAuthModal = document.getElementById('close-auth-modal');
+  const authModalOverlay = document.getElementById('auth-modal-overlay');
+  const toggleAuthMode = document.getElementById('toggle-auth-mode');
+  const authToggleText = document.getElementById('auth-toggle-text');
+  let isSignup = false;
+
+  let authMessage = document.getElementById('auth-message');
+  if (!authMessage) {
+    authMessage = document.createElement('div');
+    authMessage.id = 'auth-message';
+    authMessage.style = 'color: #9DE13A; text-align: center; margin-bottom: 10px; min-height: 24px;';
+    authForm.insertBefore(authMessage, authForm.firstChild);
+  }
+  function showAuthMessage(msg, isError = false) {
+    authMessage.textContent = msg;
+    authMessage.style.color = isError ? '#ff6b6b' : '#9DE13A';
+  }
+  function clearAuthMessage() {
+    authMessage.textContent = '';
+  }
+  function openAuthModal(e) {
+    if (e) e.preventDefault();
+    authModal.classList.remove('hidden');
+    authModalOverlay.classList.remove('hidden');
+    clearAuthMessage();
+  }
+  function closeAuthModalFn() {
+    authModal.classList.add('hidden');
+    authModalOverlay.classList.add('hidden');
+    clearAuthMessage();
+  }
+  function switchAuthMode() {
+    isSignup = !isSignup;
+    if (isSignup) {
+      authModalTitle.textContent = 'Sign Up';
+      toggleAuthMode.textContent = 'Login';
+      authToggleText.textContent = 'Already have an account?';
+    } else {
+      authModalTitle.textContent = 'Login';
+      toggleAuthMode.textContent = 'Sign up';
+      authToggleText.textContent = "Don't have an account?";
+    }
+    clearAuthMessage();
+    authForm.reset();
+  }
+  if (authBtn) authBtn.addEventListener('click', openAuthModal);
+  if (closeAuthModal) closeAuthModal.addEventListener('click', closeAuthModalFn);
+  if (authModalOverlay) authModalOverlay.addEventListener('click', closeAuthModalFn);
+  if (toggleAuthMode) toggleAuthMode.addEventListener('click', switchAuthMode);
+
+  if (authForm) {
+    authForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      clearAuthMessage();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      if (isSignup) {
+        const confirmPassword = document.getElementById('auth-confirm-password').value;
+        if (password !== confirmPassword) {
+          showAuthMessage('Passwords do not match.', true);
+          return;
+        }
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          showAuthMessage('Sign up successful! You can now log in.');
+          setTimeout(() => {
+            switchAuthMode();
+            clearAuthMessage();
+          }, 1500);
+        } catch (error) {
+          showAuthMessage(error.message, true);
+        }
+      } else {
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          showAuthMessage('Login successful!');
+          setTimeout(() => {
+            closeAuthModalFn();
+            clearAuthMessage();
+          }, 1200);
+        } catch (error) {
+          showAuthMessage(error.message, true);
+        }
+      }
+    });
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const letter = user.email ? user.email.charAt(0).toUpperCase() : '?';
+    profileAvatar.textContent = letter;
+    profileEmail.textContent = user.email || '';
+    profileMenuContainer.classList.remove('hidden');
+    if (authBtn) authBtn.style.display = 'none';
+  } else {
+    profileMenuContainer.classList.add('hidden');
+    profileAvatar.textContent = '';
+    profileEmail.textContent = '';
+    if (authBtn) authBtn.style.display = '';
+  }
+});
+
+// Toggle dropdown on avatar/email click
+profileAvatarWrapper.addEventListener('click', function(e) {
+  e.stopPropagation();
+  profileDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', function() {
+  profileDropdown.classList.add('hidden');
+});
+logoutBtn.addEventListener('click', async function() {
+  await signOut(auth);
+});
+</script>
+<script>
+// Feedback star rating logic
+const stars = document.querySelectorAll('#feedback-stars i');
+let feedbackRating = 0;
+stars.forEach(star => {
+    star.addEventListener('click', function() {
+        feedbackRating = parseInt(this.getAttribute('data-value'));
+        stars.forEach((s, i) => {
+            if (i < feedbackRating) {
+                s.classList.remove('fa-regular');
+                s.classList.add('fa-solid');
+            } else {
+                s.classList.remove('fa-solid');
+                s.classList.add('fa-regular');
+            }
+        });
+    });
+});
+// Feedback form thank you logic
+const feedbackForm = document.getElementById('feedback-form');
+const feedbackThankyou = document.getElementById('feedback-thankyou');
+if (feedbackForm) {
+    feedbackForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        feedbackThankyou.classList.remove('hidden');
+        feedbackForm.reset();
+        stars.forEach(s => { s.classList.remove('fa-solid'); s.classList.add('fa-regular'); });
+        setTimeout(() => feedbackThankyou.classList.add('hidden'), 3000);
+    });
+}
+// Hamburger menu toggle logic with overlay and animation
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+if (mobileMenuBtn && mobileMenu && mobileMenuOverlay) {
+  function openMenu() {
+    mobileMenu.classList.remove('hidden');
+    mobileMenuOverlay.classList.remove('hidden');
+    setTimeout(() => {
+      mobileMenu.classList.add('opacity-100', 'translate-y-0');
+      mobileMenu.classList.remove('opacity-0', 'translate-y-2');
+      mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    }, 10);
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+    mobileMenu.classList.add('opacity-0', 'translate-y-2');
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    setTimeout(() => {
+      mobileMenu.classList.add('hidden');
+      mobileMenuOverlay.classList.add('hidden');
+    }, 300);
+  }
+  mobileMenuBtn.addEventListener('click', function() {
+    if (mobileMenu.classList.contains('hidden')) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  });
+  mobileMenuOverlay.addEventListener('click', closeMenu);
+  // Hide menu when a link is clicked
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+}
+</script>
+</body>
+
+</html>

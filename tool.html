@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tool | Blink Color</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" referrerpolicy="no-referrer" />
+    <style type="text/tailwindcss">
+        @font-face {
+            font-family: 'General Sans';
+            src: url('GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+        }
+        :root {
+        --background-color: #1A3A32;
+        --text-color: #DCD0A8;
+        --border-color: #DCD0A8;
+        --btn-border-color: rgba(255, 255, 255, 0.5);
+        --btn-hover-bg: rgba(255, 255, 255, 0.1);
+        --footer-bg: #000000;
+        }
+        body {
+            font-family: 'General Sans', sans-serif;
+            font-weight: 500;
+            background-color: var(--background-color);
+            color: #DCD0A8;
+        }
+        .custom-border {
+            border-color: var(--border-color);
+        }
+        .btn-outline {
+            border: 1px solid var(--btn-border-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn-outline:hover {
+            background-color: var(--btn-hover-bg);
+        }
+        a {
+            color: #DCD0A8;
+        }
+    </style>
+</head>
+<body class="bg-[var(--background-color)]">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+        <!-- Header (copied from index.html, links updated) -->
+        <header class="flex items-center justify-between py-6 border-b custom-border relative z-50">
+            <div class="flex items-center flex-shrink-0 min-w-0">
+                <button id="mobile-menu-btn" class="md:hidden mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#DCD0A8]" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <svg class="w-7 h-7 text-[#DCD0A8]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <div class="text-xl font-bold text-white whitespace-nowrap">Blink | color</div>
+            </div>
+            <nav class="hidden md:flex flex-1 justify-center items-center space-x-8">
+                <a class="hover:underline" href="index.html">Home</a>
+                <a class="hover:underline" href="product.html">Product</a>
+                <a class="hover:underline" href="tool.html">Tool</a>
+            </nav>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <a class="btn-outline px-6 py-2 rounded-lg text-sm font-medium ml-2" id="auth-btn" href="#" style="color: #DCD0A8;">Login or Signup</a>
+            </div>
+        </header>
+        <nav id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full bg-[#1A3A32] z-50 shadow-lg border-b border-[#DCD0A8] pt-20 pb-6 px-6 hidden transition-all duration-300 opacity-0 translate-y-2" aria-label="Mobile navigation">
+            <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="index.html">Home</a>
+            <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="product.html">Product</a>
+            <a class="block py-2 text-lg font-medium hover:underline text-[#DCD0A8]" href="tool.html">Tool</a>
+        </nav>
+        <!-- Hero Section -->
+        <main class="mt-16 mb-24">
+            <section class="text-center py-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: #9DE13A;">Blink | color Tool</h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8" style="color: #DCD0A8;">Use our powerful color palette extraction tool. Upload your image, preview the palette, and copy or export the colors for your next project.</p>
+                <img src="side.jpg" alt="Tool Preview" class="mx-auto rounded-2xl shadow-lg border-2 border-[#DCD0A8] w-full max-w-md" />
+            </section>
+            <section class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-bold mb-4" style="color: #B2DA81;">How It Works</h2>
+                <ol class="list-decimal pl-6 space-y-2 text-lg text-left mx-auto max-w-lg">
+                    <li>Upload an image (JPG, PNG, etc.)</li>
+                    <li>See the extracted color palette instantly</li>
+                    <li>Copy CSS/Tailwind code or export as JSON</li>
+                    <li>Use the palette in your design or code</li>
+                </ol>
+            </section>
+        </main>
+    </div>
+    <footer class="bg-[var(--footer-bg)] py-4 fixed bottom-0 w-full">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-sm text-gray-400">
+            <p style="color: #DCD0A8;">Copyright © 2025 : Blink | color All rights reserved</p>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="color: #DCD0A8;">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.867 8.184 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.58.688.482C19.135 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script>
+    // Hamburger menu toggle logic for mobile
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', function() {
+        if (mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.remove('hidden');
+          setTimeout(() => {
+            mobileMenu.classList.add('opacity-100', 'translate-y-0');
+            mobileMenu.classList.remove('opacity-0', 'translate-y-2');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+          }, 10);
+        } else {
+          mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+          mobileMenu.classList.add('opacity-0', 'translate-y-2');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+          setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+          }, 300);
+        }
+      });
+      // Hide menu when a link is clicked
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    }
+    </script>
+</body>
+</html> 

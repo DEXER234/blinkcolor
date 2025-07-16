@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Blink Color</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+    <style type="text/tailwindcss">
+        @font-face {
+            font-family: 'General Sans';
+            src: url('GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+        }
+        :root {
+            --background-color: #1A3A32;
+            --text-color: #DCD0A8;
+            --border-color: #DCD0A8;
+            --btn-border-color: rgba(255, 255, 255, 0.5);
+            --btn-hover-bg: rgba(255, 255, 255, 0.1);
+            --footer-bg: #000000;
+            --color-1: #101004;
+            --color-2: #274013;
+            --color-3: #92B95F;
+        }
+        body {
+            font-family: 'General Sans', sans-serif;
+            font-weight: 500;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .font-italiana {
+            font-family: 'General Sans', sans-serif;
+        }
+        /* Animated dark multicolor gradient for heading */
+        @keyframes darkRainbow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .animated-gradient-text {
+            background: linear-gradient(90deg, #9DE13A, #DCD0A8, #6A8553, #9DE13A);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            animation: darkRainbow 4s ease-in-out infinite;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeInScale {
+            animation: fadeInScale 0.5s cubic-bezier(0.4,0,0.2,1) both;
+        }
+        @keyframes bounceOnce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            60% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        .animate-bounceOnce {
+            animation: bounceOnce 0.4s cubic-bezier(0.4,0,0.2,1) 1;
+        }
+        @keyframes fadeSlideIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeSlideIn {
+            animation: fadeSlideIn 0.3s cubic-bezier(0.4,0,0.2,1) both;
+        }
+        @keyframes toastIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes toastOut {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+        .toast-in { animation: toastIn 0.3s both; }
+        .toast-out { animation: toastOut 0.3s both; }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <div class="w-full max-w-4xl mx-auto p-8">
+        <header class="text-center mb-2">
+            <div class="flex items-center justify-center mb-2 gap-3">
+                <h1 class="font-italiana text-4xl animated-gradient-text m-0">Blink | color</h1>
+                
+            </div>
+            <p class="text-lg mt-2">Extract and explore color palettes from your images</p>
+        </header>
+        <main>
+            <div class="border-2 rounded-3xl p-8 flex items-center justify-center h-80 mb-8 relative transition-all duration-300" id="drop-area">
+                <input type="file" id="file-input" accept="image/*" class="hidden" />
+                <button id="upload-btn" class="py-2 px-6 flex items-center gap-2">
+                    <i data-lucide="upload" class="w-5 h-5"></i>
+                    Upload image
+                </button>
+                <button id="cancel-btn" class="hidden absolute top-4 right-4 bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold shadow hover:bg-red-200 transition">Cancel</button>
+            </div>
+            <div id="features-section" class="my-8">
+                <div class="border mb-6"></div>
+                <h2 class="text-2xl font-bold text-center mb-6">What can you do here?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="palette" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Extract Color Palettes</div>
+                            <div>Extract beautiful color palettes from any image instantly.</div>
+                        </div>
+                    </div>
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="swatch-book" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Live Gradient Previews</div>
+                            <div>Preview gradients and solid color combinations with live animation.</div>
+                        </div>
+                    </div>
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="copy" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Copy Code Instantly</div>
+                            <div>Copy CSS or Tailwind code for your gradients with one click.</div>
+                        </div>
+                    </div>
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="download" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Export in Many Formats</div>
+                            <div>Export your palette as JSON, SVG, PNG, CSS, SCSS, Tailwind config, or a shareable image card.</div>
+                        </div>
+                    </div>
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="chevrons-right-left" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Palette Paging</div>
+                            <div>Page through up to 8 extracted colors with Next/Prev.</div>
+                        </div>
+                    </div>
+                    <div class="border-2 rounded-xl shadow p-5 flex items-center space-x-4 animate-fadeInScale">
+                        <div class="flex-shrink-0"><i data-lucide="smartphone" class="w-8 h-8"></i></div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1">Modern & Mobile Friendly</div>
+                            <div>Enjoy a modern, animated, and mobile-friendly UI.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border mt-6"></div>
+            </div>
+            <div class="mb-4 hidden animate-fadeInScale" id="palette-header">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                    <div>
+                        <h2 class="text-lg font-semibold mb-2" style="color: var(--text-color);">Color Palette</h2>
+                        <div class="border-b border-gray-300 mt-2"></div>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button id="download-btn" class="flex items-center bg-gray-200 text-gray-700 py-2 px-4 rounded-full transition-transform duration-200 hover:scale-105 active:scale-95">
+                            <i data-lucide="download" class="w-5 h-5 mr-2"></i>
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Modal -->
+            <div id="download-modal-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden"></div>
+            <div id="download-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full relative animate-fadeInScale">
+                    <button id="close-download-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><i data-lucide="x" class="w-6 h-6"></i></button>
+                    <h3 class="text-xl font-bold mb-4 text-center">Download Palette</h3>
+                    <div class="flex justify-center mb-4 space-x-2">
+                        <span id="modal-palette-swatches" class="flex space-x-2"></span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-ase">
+                            <span class="flex items-center"><i data-lucide="palette" class="w-5 h-5 mr-2"></i>Download as ASE</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-json">
+                            <span class="flex items-center"><i data-lucide="braces" class="w-5 h-5 mr-2"></i>Download as JSON</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-svg">
+                            <span class="flex items-center"><i data-lucide="image" class="w-5 h-5 mr-2"></i>Download as SVG</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-png">
+                            <span class="flex items-center"><i data-lucide="image" class="w-5 h-5 mr-2"></i>Download as PNG</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-css">
+                            <span class="flex items-center"><i data-lucide="file-code" class="w-5 h-5 mr-2"></i>Download as CSS Variables</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-scss">
+                            <span class="flex items-center"><i data-lucide="braces" class="w-5 h-5 mr-2"></i>Download as SCSS</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-tailwind">
+                            <span class="flex items-center"><i data-lucide="feather" class="w-5 h-5 mr-2"></i>Download as Tailwind Config</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded transition" id="download-card">
+                            <span class="flex items-center"><i data-lucide="image" class="w-5 h-5 mr-2"></i>Download as Image Card</span>
+                            <i data-lucide="arrow-down-to-line" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 hidden animate-fadeInScale" id="color-palette">
+                <!-- palette swatches here -->
+                <div class="flex flex-col items-start space-y-3">
+                    <div class="w-28 h-14 bg-[var(--color-1)] rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                    <div class="text-sm space-y-1" style="color: var(--text-color);">
+                        <button class="flex items-center group" onclick="copyToClipboard('rgb(16, 16, 4)', this)">
+                            RGB : rgb(16, 16, 4) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('#101004', this)">
+                            HEX : #101004 <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('hsl(70, 90%, 10%)', this)">
+                            HSL : hsl(70, 90%, 10%) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col items-start space-y-3">
+                    <div class="w-28 h-14 bg-[var(--color-2)] rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                    <div class="text-sm space-y-1" style="color: var(--text-color);">
+                        <button class="flex items-center group" onclick="copyToClipboard('rgb(39, 64, 19)', this)">
+                            RGB : rgb(39, 64, 19) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('#274013', this)">
+                            HEX : #274013 <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('hsl(80, 60%, 14%)', this)">
+                            HSL : hsl(80, 60%, 14%) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col items-start space-y-3">
+                    <div class="w-28 h-14 bg-[var(--color-3)] rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                    <div class="text-sm space-y-1" style="color: var(--text-color);">
+                        <button class="flex items-center group" onclick="copyToClipboard('rgb(146, 185, 95)', this)">
+                            RGB : rgb(146, 185, 95) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('#92B95F', this)">
+                            HEX : #92B95F <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                        <button class="flex items-center group" onclick="copyToClipboard('hsl(80, 40%, 50%)', this)">
+                            HSL : hsl(80, 40%, 50%) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-6 space-x-2" id="palette-nav-btns">
+                <button class="flex items-center" id="prev-btn" style="color: var(--text-color);">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i> prev
+                </button>
+                <button class="flex items-center" id="next-btn" style="color: var(--text-color);">
+                    next <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="mt-8 hidden animate-fadeInScale" id="previews-section">
+                <h2 class="text-lg font-semibold mb-2" style="color: var(--text-color);">Previews</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="w-full h-40 rounded-lg bg-gradient-to-r from-[var(--color-1)] via-[var(--color-2)] to-[var(--color-3)] flex flex-col items-end justify-end p-4 transition-shadow duration-300 hover:shadow-3xl transition-transform hover:scale-105"></div>
+                    <div class="w-full h-40 rounded-lg flex">
+                        <div class="w-1/3 h-full bg-[var(--color-1)] rounded-l-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                        <div class="w-1/3 h-full bg-[var(--color-2)] transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                        <div class="w-1/3 h-full bg-[var(--color-3)] rounded-r-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col mt-4 space-y-2" id="gradient-css-row">
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <code id="gradient-css-code" class="bg-gray-800 text-gray-100 px-3 py-2 rounded font-mono text-sm select-all break-all max-w-full">background: linear-gradient(to right, var(--color-1), var(--color-2), var(--color-3));</code>
+                        <button onclick="copyGradientCSS(this)" class="flex items-center bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm group mt-2 md:mt-0">
+                            <i data-lucide="file-code" class="w-4 h-4 mr-1 text-gray-500 group-hover:text-gray-700"></i>
+                            Copy CSS
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <code id="gradient-tailwind-code" class="bg-gray-800 text-teal-200 px-3 py-2 rounded font-mono text-sm select-all break-all max-w-full">bg-gradient-to-r from-[var(--color-1)] via-[var(--color-2)] to-[var(--color-3)]</code>
+                        <button onclick="copyGradientTailwind(this)" class="flex items-center bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm group mt-2 md:mt-0">
+                            <i data-lucide="feather" class="w-4 h-4 mr-1 text-gray-500 group-hover:text-gray-700"></i>
+                            Copy Tailwind
+                            <i data-lucide="copy" class="w-4 h-4 ml-1 text-gray-400 group-hover:text-gray-700"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+        </main>
+    </div>
+  
+    <div class="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300"
+        id="toast">
+        Copied to clipboard!
+    </div>
+    <!-- Login/Signup Modal -->
+    <div id="auth-modal-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden"></div>
+    <div id="auth-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full relative animate-fadeInScale">
+            <button id="close-auth-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 id="auth-modal-title" class="text-xl font-bold mb-4 text-center">Login</h3>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label for="auth-email" class="block text-gray-700 font-semibold mb-1">Email</label>
+                    <input type="email" id="auth-email" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" required />
+                </div>
+                <div>
+                    <label for="auth-password" class="block text-gray-700 font-semibold mb-1">Password</label>
+                    <input type="password" id="auth-password" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" required />
+                </div>
+                <div id="auth-extra-fields" class="hidden">
+                    <label for="auth-confirm-password" class="block text-gray-700 font-semibold mb-1">Confirm Password</label>
+                    <input type="password" id="auth-confirm-password" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" />
+                </div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded transition">Continue</button>
+            </form>
+            <div class="text-center mt-4">
+                <span id="auth-toggle-text">Don't have an account?</span>
+                <button id="toggle-auth-mode" class="text-green-600 hover:underline font-semibold ml-1">Sign up</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Initialize Lucide icons
+        let hasImage = false;
+        let fullPalette = [];
+        let paletteIndex = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            
+            // Set up event listeners
+            setupEventListeners();
+            updateVisibility();
+        });
+
+        function setupEventListeners() {
+            // File upload functionality
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('file-input');
+            const uploadBtn = document.getElementById('upload-btn');
+            if (!dropArea || !fileInput || !uploadBtn) return;
+            
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            // Download functionality
+            const downloadAse = document.getElementById('download-ase');
+            const downloadJson = document.getElementById('download-json');
+            const downloadSvg = document.getElementById('download-svg');
+            const downloadPng = document.getElementById('download-png');
+            const downloadCss = document.getElementById('download-css');
+            const downloadScss = document.getElementById('download-scss');
+            const downloadTailwind = document.getElementById('download-tailwind');
+            const downloadCard = document.getElementById('download-card');
+            // Download modal logic
+            const downloadBtn = document.getElementById('download-btn');
+            const downloadModal = document.getElementById('download-modal');
+            const downloadModalOverlay = document.getElementById('download-modal-overlay');
+            const closeDownloadModal = document.getElementById('close-download-modal');
+            function openDownloadModal() {
+                if (downloadModal && downloadModalOverlay) {
+                    downloadModal.classList.remove('hidden');
+                    downloadModalOverlay.classList.remove('hidden');
+                    renderModalPaletteSwatches();
+                    if (window.lucide) lucide.createIcons();
+                }
+            }
+            function closeDownloadModalFn() {
+                if (downloadModal && downloadModalOverlay) {
+                    downloadModal.classList.add('hidden');
+                    downloadModalOverlay.classList.add('hidden');
+                }
+            }
+            if (downloadBtn) downloadBtn.addEventListener('click', openDownloadModal);
+            if (closeDownloadModal) closeDownloadModal.addEventListener('click', closeDownloadModalFn);
+            if (downloadModalOverlay) downloadModalOverlay.addEventListener('click', closeDownloadModalFn);
+            // Download buttons in modal
+            if (downloadAse) downloadAse.addEventListener('click', function(e){e.stopPropagation();downloadASE();});
+            if (downloadJson) downloadJson.addEventListener('click', function(e){e.stopPropagation();downloadJSON();});
+            if (downloadSvg) downloadSvg.addEventListener('click', function(e){e.stopPropagation();downloadSVG();});
+            if (downloadPng) downloadPng.addEventListener('click', function(e){e.stopPropagation();downloadPNG();});
+            if (downloadCss) downloadCss.addEventListener('click', function(e){e.stopPropagation();downloadCSSVars();});
+            if (downloadScss) downloadScss.addEventListener('click', function(e){e.stopPropagation();downloadSCSS();});
+            if (downloadTailwind) downloadTailwind.addEventListener('click', function(e){e.stopPropagation();downloadTailwindConfig();});
+            if (downloadCard) downloadCard.addEventListener('click', function(e){e.stopPropagation();downloadImageCard();});
+            
+            // Next button functionality
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            if (nextBtn) nextBtn.addEventListener('click', showNextPalette);
+            if (prevBtn) prevBtn.addEventListener('click', showPrevPalette);
+
+            // Add cancel button handler
+            attachCancelHandler();
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            document.getElementById('drop-area').classList.add('border-blue-500', 'bg-blue-50', 'animate-pulse');
+        }
+
+        function unhighlight() {
+            document.getElementById('drop-area').classList.remove('border-blue-500', 'bg-blue-50', 'animate-pulse');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.match('image.*')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        extractColorsFromImage(e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function extractColorsFromImage(imageData) {
+            hasImage = true;
+            const img = new window.Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = imageData;
+            img.onload = function() {
+                const colorThief = new ColorThief();
+                // Get up to 8 dominant colors
+                fullPalette = colorThief.getPalette(img, 8).map(rgbArr => rgbToHex(rgbArr[0], rgbArr[1], rgbArr[2]));
+                paletteIndex = 0;
+                updateColorPalette(getCurrentPalette());
+                // Show the image in the drop area
+                const dropArea = document.getElementById('drop-area');
+                if (dropArea) {
+                    dropArea.innerHTML = `
+                        <img src="${imageData}" alt="Uploaded preview" class="w-full h-full object-contain bg-white rounded-3xl" />
+                        <button id="cancel-btn" class="absolute top-4 right-4 bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold shadow hover:bg-red-200 transition">Cancel</button>
+                    `;
+                }
+                updateVisibility();
+                attachCancelHandler();
+                updatePrevNextButtonVisibility();
+            };
+        }
+
+        function getCurrentPalette() {
+            // Return 3 colors from the current index
+            if (!fullPalette.length) return [];
+            return fullPalette.slice(paletteIndex, paletteIndex + 3);
+        }
+
+        function updateNextButtonVisibility() {
+            const nextBtn = document.getElementById('next-btn');
+            if (nextBtn) {
+                if (fullPalette.length > 3) {
+                    nextBtn.classList.remove('hidden');
+                } else {
+                    nextBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        function attachCancelHandler() {
+            const cancelBtn = document.getElementById('cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    hasImage = false;
+                    // Reset drop area
+                    const dropArea = document.getElementById('drop-area');
+                    if (dropArea) {
+                        dropArea.innerHTML = `
+                            <input type="file" id="file-input" accept="image/*" class="hidden" />
+                            <button id="upload-btn" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full flex items-center gap-2">
+                                <i data-lucide="upload" class="w-5 h-5"></i>
+                                Upload image
+                            </button>
+                            <button id="cancel-btn" class="hidden absolute top-4 right-4 bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold shadow hover:bg-red-200 transition">Cancel</button>
+                        `;
+                    }
+                    updateVisibility();
+                    // Reattach upload event listeners
+                    const uploadBtn = document.getElementById('upload-btn');
+                    const fileInput = document.getElementById('file-input');
+                    if (uploadBtn && fileInput) {
+                        uploadBtn.addEventListener('click', () => fileInput.click());
+                        fileInput.addEventListener('change', handleFileSelect);
+                    }
+                });
+            }
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function updateColorPalette(colors) {
+            // Update CSS variables
+            document.documentElement.style.setProperty('--color-1', colors[0] || '#ffffff');
+            document.documentElement.style.setProperty('--color-2', colors[1] || '#ffffff');
+            document.documentElement.style.setProperty('--color-3', colors[2] || '#ffffff');
+            
+            // Update color information in the palette
+            const colorElements = document.querySelectorAll('#color-palette > div');
+            
+            colors.forEach((color, index) => {
+                if (colorElements[index]) {
+                    // Convert hex to RGB and HSL
+                    const rgb = hexToRgb(color);
+                    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+                    
+                    // Update the color display
+                    const colorDisplay = colorElements[index].querySelector('.w-28');
+                    if (colorDisplay) {
+                        colorDisplay.style.backgroundColor = color;
+                    }
+                    
+                    // Update the color values
+                    const valueContainer = colorElements[index].querySelector('.space-y-1');
+                    if (valueContainer) {
+                        valueContainer.innerHTML = `
+                            <button class="flex items-center group" onclick="copyToClipboard('rgb(${rgb.r}, ${rgb.g}, ${rgb.b})', this)">
+                                RGB : rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                            </button>
+                            <button class="flex items-center group" onclick="copyToClipboard('${color}', this)">
+                                HEX : ${color} <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                            </button>
+                            <button class="flex items-center group" onclick="copyToClipboard('hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)', this)">
+                                HSL : hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%) <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-400 group-hover:text-gray-700"></i>
+                            </button>
+                        `;
+                    }
+                }
+            });
+            
+            // Update gradient CSS code
+            document.getElementById('gradient-css-code').textContent = 
+                `background: linear-gradient(to right, ${colors[0] || '#ffffff'}, ${colors[1] || '#ffffff'}, ${colors[2] || '#ffffff'});`;
+            document.getElementById('gradient-tailwind-code').textContent = 
+                `bg-gradient-to-r from-[${colors[0] || '#ffffff'}] via-[${colors[1] || '#ffffff'}] to-[${colors[2] || '#ffffff'}]`;
+            
+            // Refresh Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            updatePrevNextButtonVisibility();
+        }
+
+        function hexToRgb(hex) {
+            // Remove # if present
+            hex = hex.replace('#', '');
+            
+            // Parse r, g, b values
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            
+            return { r, g, b };
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255, g /= 255, b /= 255;
+            
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0; // achromatic
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                
+                h /= 6;
+            }
+            
+            return {
+                h: h * 360,
+                s: s * 100,
+                l: l * 100
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        function downloadASE() {
+            showToast('ASE download is not available in this demo.');
+        }
+
+        function downloadJSON() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            
+            // Create JSON content
+            const jsonContent = JSON.stringify({
+                palette: colors.map(color => ({
+                    hex: color,
+                    rgb: hexToRgb(color),
+                    hsl: rgbToHsl(...Object.values(hexToRgb(color)))
+                }))
+            }, null, 2);
+            
+            // Create download link
+            const blob = new Blob([jsonContent], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'color-palette.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateNewPalette() {
+            hasImage = false;
+            fullPalette = [];
+            paletteIndex = 0;
+            updateColorPalette([]);
+            // Reset the drop area to show the upload button
+            const dropArea = document.getElementById('drop-area');
+            if (dropArea) {
+                dropArea.innerHTML = `
+                    <input type="file" id="file-input" accept="image/*" class="hidden" />
+                    <button id="upload-btn" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full flex items-center gap-2">
+                        <i data-lucide="upload" class="w-5 h-5"></i>
+                        Upload image
+                    </button>
+                    <button id="cancel-btn" class="hidden absolute top-4 right-4 bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold shadow hover:bg-red-200 transition">Cancel</button>
+                `;
+            }
+            updateVisibility();
+            // Reattach event listeners
+            const uploadBtn = document.getElementById('upload-btn');
+            const fileInput = document.getElementById('file-input');
+            if (uploadBtn && fileInput) {
+                uploadBtn.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', handleFileSelect);
+            }
+            updatePrevNextButtonVisibility();
+        }
+
+        // Next button handler for palette paging
+        function showNextPalette() {
+            if (fullPalette.length > 3) {
+                paletteIndex += 3;
+                if (paletteIndex >= fullPalette.length) paletteIndex = 0;
+                updateColorPalette(getCurrentPalette());
+                updateNextButtonVisibility();
+                // Animate next button
+                const nextBtn = document.getElementById('next-btn');
+                if (nextBtn) {
+                    nextBtn.classList.remove('animate-bounceOnce');
+                    void nextBtn.offsetWidth; // force reflow
+                    nextBtn.classList.add('animate-bounceOnce');
+                }
+            }
+        }
+
+        // Previous button handler for palette paging
+        function showPrevPalette() {
+            if (fullPalette.length > 3) {
+                paletteIndex -= 3;
+                if (paletteIndex < 0) paletteIndex = Math.max(0, fullPalette.length - (fullPalette.length % 3 || 3));
+                updateColorPalette(getCurrentPalette());
+                updatePrevNextButtonVisibility();
+                // Animate prev button
+                const prevBtn = document.getElementById('prev-btn');
+                if (prevBtn) {
+                    prevBtn.classList.remove('animate-bounceOnce');
+                    void prevBtn.offsetWidth;
+                    prevBtn.classList.add('animate-bounceOnce');
+                }
+            }
+        }
+
+        // Update both next and prev button visibility
+        function updatePrevNextButtonVisibility() {
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            if (nextBtn) {
+                if (fullPalette.length > 3) {
+                    nextBtn.classList.remove('hidden');
+                } else {
+                    nextBtn.classList.add('hidden');
+                }
+            }
+            if (prevBtn) {
+                if (fullPalette.length > 3) {
+                    prevBtn.classList.remove('hidden');
+                } else {
+                    prevBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        function copyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(function () {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'toast-out');
+                toast.classList.add('toast-in', 'opacity-100');
+                const icon = element.querySelector('.lucide-copy');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'check');
+                    lucide.createIcons();
+                    element.classList.add('text-teal-500');
+                }
+                setTimeout(() => {
+                    toast.classList.remove('toast-in');
+                    toast.classList.add('toast-out');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                        toast.classList.remove('toast-out');
+                    }, 300);
+                }, 2000);
+            }, function (err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        function copyGradientCSS(element) {
+            const css = document.getElementById('gradient-css-code').textContent;
+            navigator.clipboard.writeText(css).then(function () {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'toast-out');
+                toast.classList.add('toast-in', 'opacity-100');
+                const icon = element.querySelector('.lucide-copy');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'check');
+                    lucide.createIcons();
+                    element.classList.add('text-teal-500');
+                }
+                setTimeout(() => {
+                    toast.classList.remove('toast-in');
+                    toast.classList.add('toast-out');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                        toast.classList.remove('toast-out');
+                    }, 300);
+                }, 2000);
+            }, function (err) {
+                console.error('Could not copy gradient CSS: ', err);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.textContent = message;
+                toast.classList.remove('opacity-0', 'toast-out');
+                toast.classList.add('toast-in', 'opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('toast-in');
+                    toast.classList.add('toast-out');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                        toast.classList.remove('toast-out');
+                    }, 300);
+                }, 2000);
+            }
+        }
+
+        function updateVisibility() {
+            document.getElementById('palette-header').classList.toggle('hidden', !hasImage);
+            document.getElementById('color-palette').classList.toggle('hidden', !hasImage);
+            document.getElementById('previews-section').classList.toggle('hidden', !hasImage);
+            document.getElementById('prev-btn').classList.toggle('hidden', !hasImage);
+            document.getElementById('next-btn').classList.toggle('hidden', !hasImage);
+            document.getElementById('features-section').classList.toggle('hidden', hasImage);
+        }
+
+        // SVG Export
+        function downloadSVG() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            let svg = `<svg width="${colors.length*60}" height="60" xmlns="http://www.w3.org/2000/svg">`;
+            colors.forEach((color, i) => {
+                svg += `<rect x="${i*60}" y="0" width="60" height="60" fill="${color}"/>`;
+            });
+            svg += `</svg>`;
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'palette.svg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // PNG Export (using canvas)
+        function downloadPNG() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            const canvas = document.createElement('canvas');
+            canvas.width = colors.length * 60;
+            canvas.height = 60;
+            const ctx = canvas.getContext('2d');
+            colors.forEach((color, i) => {
+                ctx.fillStyle = color;
+                ctx.fillRect(i*60, 0, 60, 60);
+            });
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'palette.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // CSS Variables Export
+        function downloadCSSVars() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            let css = ':root {\n';
+            colors.forEach((color, i) => {
+                css += `  --color-${i+1}: ${color};\n`;
+            });
+            css += '}\n';
+            const blob = new Blob([css], { type: 'text/css' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'palette.css';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // SCSS Export
+        function downloadSCSS() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            let scss = '';
+            colors.forEach((color, i) => {
+                scss += `$color-${i+1}: ${color};\n`;
+            });
+            const blob = new Blob([scss], { type: 'text/x-scss' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'palette.scss';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Tailwind Config Export
+        function downloadTailwindConfig() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            let config = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n`;
+            colors.forEach((color, i) => {
+                config += `        palette${i+1}: '${color}',\n`;
+            });
+            config += `      }\n    }\n  }\n}\n`;
+            const blob = new Blob([config], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tailwind.palette.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Image Card Export (PNG with swatches and hex codes)
+        function downloadImageCard() {
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            const width = 80 * colors.length + 40;
+            const height = 140;
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            // Background
+            ctx.fillStyle = '#18181b';
+            ctx.fillRect(0, 0, width, height);
+            // Title
+            ctx.font = 'bold 20px Arial';
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Palette', 20, 32);
+            // Swatches and hex codes
+            colors.forEach((color, i) => {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(60 + i*80, 70, 28, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.font = '14px monospace';
+                ctx.fillStyle = '#fff';
+                ctx.textAlign = 'center';
+                ctx.fillText(color, 60 + i*80, 115);
+            });
+            ctx.textAlign = 'start';
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'palette-card.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Copy Tailwind gradient code
+        function copyGradientTailwind(element) {
+            const code = document.getElementById('gradient-tailwind-code').textContent;
+            navigator.clipboard.writeText(code).then(function () {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'toast-out');
+                toast.classList.add('toast-in', 'opacity-100');
+                const icon = element.querySelector('.lucide-copy');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'check');
+                    lucide.createIcons();
+                    element.classList.add('text-teal-500');
+                }
+                setTimeout(() => {
+                    toast.classList.remove('toast-in');
+                    toast.classList.add('toast-out');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                        toast.classList.remove('toast-out');
+                        if (icon) {
+                            icon.setAttribute('data-lucide', 'copy');
+                            lucide.createIcons();
+                            element.classList.remove('text-teal-500');
+                        }
+                    }, 300);
+                }, 2000);
+            }, function (err) {
+                console.error('Could not copy Tailwind code: ', err);
+            });
+        }
+
+        // Render palette swatches in modal
+        function renderModalPaletteSwatches() {
+            const swatchContainer = document.getElementById('modal-palette-swatches');
+            if (!swatchContainer) return;
+            swatchContainer.innerHTML = '';
+            const colors = fullPalette.length ? fullPalette : [
+                getComputedStyle(document.documentElement).getPropertyValue('--color-1').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-2').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--color-3').trim()
+            ];
+            colors.forEach(color => {
+                const swatch = document.createElement('span');
+                swatch.className = 'inline-block w-8 h-8 rounded-full border border-gray-200';
+                swatch.style.background = color;
+                swatch.title = color;
+                swatchContainer.appendChild(swatch);
+            });
+        }
+    </script>
+    <footer class="bg-[var(--footer-bg)] py-4 w-full animate-fadeInUp animate-delay-2">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-sm text-gray-400">
+            <p style="color: #DCD0A8;">Copyright © 2025 : Blink | color All rights reserved</p>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="color: #DCD0A8;">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.867 8.184 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.58.688.482C19.135 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+</body>
+
+</html>
